@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+
+    <title>ParsleyJS Demo</title>
+    <meta name="description" content="Demo of how to use ParsleyJS" />
+    <meta name="author" content="Frank Steinberg" />
+
+    <link
+      href="https://cdn.jsdelivr.net/npm/tailwindcss/dist/tailwind.min.css"
+      rel="stylesheet"
+    />
+
+    <script
+      src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+      integrity="sha256-3edrmyuQ0w65f8gfBsqowzjJe2iM6n0nKciPUp8y+7E="
+      crossorigin="anonymous"
+    ></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/parsley.js/2.9.0/parsley.min.js"></script>
+
+    <style>
+      input.parsley-success,
+      select.parsley-success,
+      textarea.parsley-success {
+        color: #468847;
+        background-color: #dff0d8;
+        border: 1px solid #d6e9c6;
+      }
+
+      input.parsley-error,
+      select.parsley-error,
+      textarea.parsley-error {
+        color: #b94a48;
+        background-color: #f2dede;
+        border: 1px solid #eed3d7;
+      }
+
+      .parsley-errors-list {
+        margin: 2px 0 3px;
+        padding: 0;
+        list-style-type: none;
+        font-size: 0.9em;
+        line-height: 0.9em;
+        opacity: 0;
+        color: #b94a48;
+
+        transition: all 0.3s ease-in;
+        -o-transition: all 0.3s ease-in;
+        -moz-transition: all 0.3s ease-in;
+        -webkit-transition: all 0.3s ease-in;
+      }
+
+      .parsley-errors-list li {
+        margin: 8px 0px;
+      }
+
+      .parsley-errors-list.filled {
+        opacity: 1;
+      }
+    </style>
+
+    <script>
+      $(function() {
+        addCustomValidationRules();
+        $("#demo-form").parsley();
+      });
+
+      function addCustomValidationRules() {
+        //has uppercase
+        window.Parsley.addValidator("uppercase", {
+          requirementType: "number",
+          validateString: function(value, requirement) {
+            var uppercases = value.match(/[A-Z]/g) || [];
+            return uppercases.length >= requirement;
+          },
+          messages: {
+            en: "Your password must contain at least (%s) uppercase letter."
+          }
+        });
+
+        //has lowercase
+        window.Parsley.addValidator("lowercase", {
+          requirementType: "number",
+          validateString: function(value, requirement) {
+            var lowecases = value.match(/[a-z]/g) || [];
+            return lowecases.length >= requirement;
+          },
+          messages: {
+            en: "Your password must contain at least (%s) lowercase letter."
+          }
+        });
+
+        //has number
+        window.Parsley.addValidator("number", {
+          requirementType: "number",
+          validateString: function(value, requirement) {
+            var numbers = value.match(/[0-9]/g) || [];
+            return numbers.length >= requirement;
+          },
+          messages: {
+            en: "Your password must contain at least (%s) number."
+          }
+        });
+
+        //has special char
+        window.Parsley.addValidator("special", {
+          requirementType: "number",
+          validateString: function(value, requirement) {
+            var specials = value.match(/[^a-zA-Z0-9]/g) || [];
+            return specials.length >= requirement;
+          },
+          messages: {
+            en: "Your password must contain at least (%s) special characters."
+          }
+        });
+      }
+    </script>
+  </head>
+
+  <body>
+    <div class="font-sans bg-blue-lighter flex flex-col min-h-screen w-full">
+      <div class="bg-blue-dark shadow shadow-md">
+        <div class="px-4">
+          <div class="flex items-center justify-center sm:justify-between py-4">
+            <div
+              class="w-auto text-center text-white text-2xl sm:text-4xl font-medium"
+            >
+              Parsley Validation Demo
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="px-4">
+        <div
+          class="container w-full sm:w-4/5 md:w-3/5 lg:w-1/2 sm:mx-auto my-10 bg-white rounded rounded-lg p-6 shadow shadow-lg"
+        >
+          <form id="demo-form" action="https://google.com">
+            <div class="mb-6">
+              <label
+                class="uppercase block text-blue-darker opacity-75 font-sans tacking-wide text-sm font-bold mb-2"
+                for="firstname"
+              >
+                First Name
+              </label>
+              <input
+                class="shadow appearance-none bg-blue-lightest border rounded w-full py-2 px-3 text-grey-darker leading-tight focus:outline-none focus:shadow-outline"
+                id="firstname"
+                type="text"
+                placeholder="First Name"
+                data-parsley-required="true"
+              />
+            </div>
+            <div class="mb-6">
+              <label
+                class="uppercase block text-blue-darker opacity-75 font-sans tacking-wide text-sm font-bold mb-2"
+                for="lastname"
+              >
+                Last Name
+              </label>
+              <input
+                class="shadow appearance-none bg-blue-lightest border rounded w-full py-2 px-3 text-grey-darker leading-tight focus:outline-none focus:shadow-outline"
+                id="lastname"
+                type="text"
+                placeholder="Last Name"
+                data-parsley-required="true"
+              />
+            </div>
+            <div class="mb-6">
+              <label
+                class="uppercase block text-blue-darker opacity-75 font-sans tacking-wide text-sm font-bold mb-2"
+                for="email"
+              >
+                Email
+              </label>
+              <input
+                class="shadow appearance-none bg-blue-lightest border rounded w-full py-2 px-3 text-grey-darker leading-tight focus:outline-none focus:shadow-outline"
+                id="email"
+                type="text"
+                placeholder="Email"
+                data-parsley-type="email"
+                data-parsley-required="true"
+              />
+            </div>
+            <div class="mb-6">
+              <label
+                class="uppercase block text-blue-darker opacity-75 font-sans tacking-wide text-sm font-bold mb-2"
+                for="password"
+              >
+                Password
+              </label>
+              <input
+                class="shadow appearance-none bg-blue-lightest border rounded w-full py-2 px-3 text-grey-darker leading-tight focus:outline-none focus:shadow-outline"
+                id="password"
+                type="password"
+                placeholder="Password"
+                data-parsley-required="true"
+                data-parsley-uppercase="1"
+                data-parsley-lowercase="1"
+                data-parsley-number="1"
+                data-parsley-special="1"
+                data-parsley-minlength="8"
+              />
+            </div>
+            <div class="mb-6">
+              <label
+                class="uppercase block text-blue-darker opacity-75 font-sans tacking-wide text-sm font-bold mb-2"
+                for="password-comfirm"
+              >
+                Confirm Password
+              </label>
+              <input
+                class="shadow appearance-none bg-blue-lightest border rounded w-full py-2 px-3 text-grey-darker leading-tight focus:outline-none focus:shadow-outline"
+                id="password-comfirm"
+                type="password"
+                placeholder="Confirm Password"
+                data-parsley-equalto="#password"
+                data-parsley-required
+              />
+            </div>
+            <div class="mb-6">
+              <label
+                class="uppercase block text-blue-darker opacity-75 font-sans tacking-wide text-sm font-bold mb-2"
+                for="dog-rating"
+              >
+                Rate How Much You Love Doggos (1-10)
+              </label>
+              <input
+                class="shadow appearance-none bg-blue-lightest border rounded w-full py-2 px-3 text-grey-darker leading-tight focus:outline-none focus:shadow-outline"
+                id="dog-rating"
+                type="text"
+                placeholder="1-10"
+                data-parsley-required
+                data-parsley-type="integer"
+                data-parsley-min="10"
+                data-parsley-max="10"
+              />
+            </div>
+            <div class="flex flex-row-reverse items-center justify-between">
+              <button
+                class="bg-blue hover:bg-blue-dark text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                type="submit"
+              >
+                Submit
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
